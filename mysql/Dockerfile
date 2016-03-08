@@ -4,7 +4,7 @@
 #
 # Dockerizing CentOS7: Dockerfile for building CentOS images
 #
-FROM       centos:7.2.1511
+FROM       sinobyte/centos_base:7.2.1511.2
 MAINTAINER pp
 
 ENV TZ "Asia/Shanghai"
