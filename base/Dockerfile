@@ -4,7 +4,7 @@
 #
 # Dockerizing CentOS7: Dockerfile for building CentOS images
 #
-FROM       centos:7.2.1511
+FROM       centos:latest
 MAINTAINER pp
 
 ENV TZ "Asia/Shanghai"
@@ -15,7 +15,7 @@ ADD aliyun-mirror.repo /etc/yum.repos.d/CentOS-Base.repo
 ADD aliyun-epel.repo /etc/yum.repos.d/epel.repo
 
 RUN yum install -y curl wget tar bzip2 unzip vim sudo yum-utils net-tools man openssh-server && \
-    yum install -y gcc gcc-c++ git make automake cmake python-devel python-pip && \
+    yum install -y gcc gcc-c++ git make automake cmake python-devel python-pip net-tools && \
     yum clean all
 
 RUN  ssh-keygen -q -t rsa -b 2048 -f /etc/ssh/ssh_host_rsa_key -N '' && \
@@ -24,6 +24,7 @@ RUN  ssh-keygen -q -t rsa -b 2048 -f /etc/ssh/ssh_host_rsa_key -N '' && \
      sed -i "s/#UsePrivilegeSeparation.*/UsePrivilegeSeparation no/g" /etc/ssh/sshd_config && \
      sed -i "s/UsePAM.*/UsePAM no/g" /etc/ssh/sshd_config 
 
+RUN pip install --upgrade pip
 RUN pip install supervisor
 ADD supervisord.conf /etc/supervisord.conf
 ADD supervisor_ssh.conf /etc/supervisor.conf.d/ssh.conf
